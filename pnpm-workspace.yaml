@@ -1,0 +1,9 @@
+allowBuilds:
+  '@prisma/engines': false
+  prisma: false
+minimumReleaseAgeExclude:
+  - '@rolldown/binding-darwin-arm64@1.2.7'
+  - '@rolldown/binding-freebsd-x64@1.2.7'
+  - '@rolldown/binding-linux-ppc64-gnu@1.2.7'
+  - '@rolldown/binding-linux-x64-gnu@1.2.7'
+  - '@rolldown/binding-openharmony-arm64@1.2.7'

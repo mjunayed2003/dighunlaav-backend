@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  role      String   @default("ADMIN") // e.g., "ADMIN", "SUPER_ADMIN"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Customer {
+  id      String   @id @default(cuid())
+  name    String
+  phone   String
+  address String
+  product String
+  code    String   @unique
+  status  String   @default("ACTIVE") // "ACTIVE" or "WON"
+  winners Winner[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Draw {
+  id       String   @id @default(cuid())
+  title    String
+  drawDate DateTime
+  winners  Winner[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Winner {
+  id           String @id @default(cuid())
+  position     Int // 1, 2, 3
+  prizeDetails String
+
+  drawId String
+  draw   Draw   @relation(fields: [drawId], references: [id], onDelete: Cascade)
+
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+}
+
+model SystemSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique // e.g., "NEXT_DRAW_DATE", "PRIZE_CONFIG"
+  value     String // Stored as JSON string
+  updatedAt DateTime @updatedAt
+}
