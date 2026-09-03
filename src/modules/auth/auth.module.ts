@@ -9,7 +9,7 @@ import { JwtStrategy } from './jwt.strategy.js';
 @Module({
   imports: [
     PrismaModule,
-    PassportModule,
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret: 'SUPER_SECRET_KEY_123', // In real app, use .env
       signOptions: { expiresIn: '1d' },
