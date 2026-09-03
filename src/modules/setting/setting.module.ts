@@ -3,8 +3,10 @@ import { SettingController } from './setting.controller.js';
 import { SettingService } from './setting.service.js';
 import { PrismaModule } from '../../common/prisma/prisma.module.js';
 
+import { AuthModule } from '../auth/auth.module.js';
+
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule, AuthModule],
   controllers: [SettingController],
   providers: [SettingService]
 })

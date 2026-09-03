@@ -1,5 +1,6 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
 import { SettingService } from './setting.service.js';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard.js';
 
 @Controller('setting')
 export class SettingController {
@@ -11,6 +12,7 @@ export class SettingController {
   }
 
   @Post('next-draw')
+  @UseGuards(JwtAuthGuard)
   async setNextDraw(@Body() body: { date: string }) {
     return this.settingService.setNextDrawDate(body.date);
   }
@@ -21,6 +23,7 @@ export class SettingController {
   }
 
   @Post('prizes')
+  @UseGuards(JwtAuthGuard)
   async setPrizes(@Body() body: any) {
     return this.settingService.setPrizes(body);
   }

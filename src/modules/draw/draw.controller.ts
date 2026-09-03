@@ -1,7 +1,9 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
 import { DrawService } from './draw.service.js';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard.js';
 
 @Controller('draw')
+@UseGuards(JwtAuthGuard)
 export class DrawController {
   constructor(private readonly drawService: DrawService) {}
 
