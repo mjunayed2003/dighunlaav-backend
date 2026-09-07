@@ -5,7 +5,7 @@ import { PrismaService } from '../../common/prisma/prisma.service.js';
 export class CustomerService {
   constructor(private prisma: PrismaService) {}
 
-  async createCustomer(data: { name: string; phone: string; address: string; product: string }) {
+  async createCustomer(data: { name: string; phone: string; address: string; product: string }, status: string = 'ACTIVE') {
     // Generate code
     const num = Math.floor(1000 + Math.random() * 9000);
     const initials = data.name
@@ -18,9 +18,20 @@ export class CustomerService {
       data: {
         ...data,
         code,
-        status: 'ACTIVE',
+        status,
       },
     });
+  }
+
+  async acceptCustomer(id: string, sendSms: boolean) {
+    const customer = await this.prisma.customer.update({
+      where: { id },
+      data: { status: 'ACTIVE' },
+    });
+    
+    // In a real app, integrate SMS provider here if sendSms is true
+    // For now we just return the accepted customer
+    return customer;
   }
 
   async getActiveCustomers() {
